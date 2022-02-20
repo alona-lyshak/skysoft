@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    border-bottom: 1px solid #8d8d8d;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+}
+
+.left-block {
+    border-right: 1px solid #8d8d8d;
+    width: 250px;
+    background-color: #eeeeee;
+}
+
+.center-block {
+    flex: 1;
+    padding: 10px;
+}
+
+.right-block {
+    border-left: 1px solid #8d8d8d;
+    width: 250px;
+    background-color: #eeeeee;
+}
+
+.footer {
+    border-top: 1px solid #8d8d8d;
+}
+
+.header, .footer {
+    height: 50px;
+    background-color: #eeeeee;
+}
