@@ -1,0 +1,47 @@
+--Знайти топ-3 покупців за сумою замовлень
+
+SELECT Customers.CustomerName, Customers.CustomerID, SUM(OrderDetails.Quantity * Products.Price) AS Cost
+FROM Customers
+JOIN Orders ON Orders.CustomerID = Customers.CustomerID
+JOIN OrderDetails ON OrderDetails.OrderID = Orders.OrderID
+JOIN Products ON Products.ProductID = OrderDetails.ProductID
+GROUP BY Customers.CustomerID
+ORDER BY Cost DESC
+LIMIT 3
+
+--Знайти топ-3 покупців за кількістю замовлень
+
+SELECT Customers.CustomerName, Customers.CustomerID, COUNT() AS Orders_count
+FROM Customers
+JOIN Orders ON Orders.CustomerID = Customers.CustomerID
+GROUP BY Customers.CustomerID
+ORDER BY Orders_count DESC
+LIMIT 3
+
+--Знайти найдорожче замовлення
+
+SELECT OrderDetails.OrderID, SUM(OrderDetails.Quantity * Products.Price) AS Cost
+FROM OrderDetails
+JOIN Products ON OrderDetails.ProductID = Products.ProductID
+GROUP BY OrderDetails.OrderID
+ORDER BY Cost DESC
+LIMIT 1
+
+--Знайти середню вартість замовлення в категорії “Meat/Poultry”
+
+SELECT AVG(Price) AS Average_price FROM (
+SELECT OrderDetails.OrderID, Products.CategoryID, Products.Price * OrderDetails.Quantity AS Price
+FROM Products
+JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
+WHERE Products.CategoryID = 6
+GROUP BY OrderDetails.OrderID) OrdersPrice
+GROUP BY OrdersPrice.CategoryID
+
+--Зробити зведену таблицю ефективності співробітників. (Скільки кожен співробітник продав у кожній категорії)
+
+SELECT Employees.EmployeeID, Employees.LastName, Employees.FirstName, SUM(OrderDetails.Quantity) AS Offtake, Products.CategoryID
+FROM Employees
+JOIN Orders ON Orders.EmployeeID = Employees.EmployeeID
+JOIN OrderDetails ON OrderDetails.OrderID = Orders.OrderID
+JOIN Products ON Products.ProductID = OrderDetails.ProductID
+GROUP BY Employees.EmployeeID, Products.CategoryID
